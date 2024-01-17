@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { useState } from 'react'
 import { Button, OutlineButton } from  "../styled/Button";
 import Rules from './Rule'
+import { useNavigate } from 'react-router-dom'
 
 const GamePlay = () => {
   
@@ -14,6 +15,7 @@ const GamePlay = () => {
   const [currentDice, setCurrentDice] = useState(1);
   const [error, setError] = useState("");
   const [showRules,setShowRules] = useState(false);
+  const navigate = useNavigate();
 
   const generateRandomNumber = (min, max) =>{
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -45,6 +47,25 @@ const GamePlay = () => {
   const toggle = () =>{
     setShowRules(!showRules);
   }
+  const logout = async() =>{
+    try{
+      const response = await fetch('http://localhost:3000/logout', {
+        method: 'POST',
+        credentials: 'include'
+      });
+      if (response.ok){
+        console.log("logout successfull");
+        navigate('/');
+      }
+      else {
+        console.error('Logout failed:', response.status, response.statusText);
+        // Handle error or provide user feedback
+      }
+    }
+    catch (error) {
+      console.error('Logout failed:', error.message);
+    }
+  }
 
 
   return (
@@ -69,6 +90,11 @@ const GamePlay = () => {
         onClick={toggle}>{showRules? "Hide" : "Show"} Rules</Button>
       </div>
       {showRules && <Rules/>}
+      
+      <div className="d-flex justify-content-center mt-3 login_container">
+				 				<button onClick={logout} name="button" className="btn login_btn">Logout</button>
+			</div>
+      
     </MainContainer>
   )
 }

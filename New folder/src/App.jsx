@@ -15,7 +15,7 @@ function App() {
         <Route path="/" element={<RenderForm/>}></Route>
         <Route path="/Signup" element={<SignupForm/>}></Route>
         <Route path="/start/:username" element={<Start/>}></Route>
-        <Route path="/gameplay" element={<GamePlay />}></Route>
+        <Route path="/:username/gameplay" element={<GamePlay />}></Route>
       </Routes>
     </BrowserRouter>
   

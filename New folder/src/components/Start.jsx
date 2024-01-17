@@ -1,16 +1,24 @@
 import styled from "styled-components";
 import { Button } from "../styled/Button";
-import { useState } from "react";
+import { useState , useEffect} from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 
 
 const Start = () => {
-  const nevigate = useNavigate()
+  const navigate = useNavigate()
   const { username } = useParams();
+
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
   const toggleGamePlay = () =>{
-    nevigate('/gameplay');
-    };
+    navigate(`/${username}/gameplay`);
+  };
+  
   
   
   return (
@@ -18,9 +26,19 @@ const Start = () => {
     
     <Container>
         <DashboardContainer>
-        <div className="user-info">
+        <div className="user-info" onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>
           <img src="/images/person.svg" alt="" />
           <h1>{username}</h1>
+          {showDropdown && (
+            <DropdownContent>
+              {/* Your dropdown content goes here */}
+              <ul>
+                <li>Menu Item 1</li>
+                <li>Menu Item 2</li>
+                {/* Add more menu items as needed */}
+              </ul>
+            </DropdownContent>
+          )}
         </div>
       </DashboardContainer>
       <DiceContainer>
@@ -71,6 +89,32 @@ const DiceContainer = styled.div`
   text-align: center;
   padding-top: 50px;
   width: 500px;
+`;
+const DropdownContent = styled.div`
+  display: ${({ showDropdown }) => (showDropdown ? 'block' : 'none')};
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #0a0101;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  z-index: 1;
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    padding: 8px 16px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #130404;
+    }
+  }
 `;
 
 

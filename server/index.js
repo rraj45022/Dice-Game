@@ -2,12 +2,23 @@ const express = require('express');
 const mongoose = require('mongoose');
 const loginModel = require('./Models/login')
 const cors = require('cors');
+const session = require('express-session');
 
 
 
 const app = express();
+app.use(
+    session({
+      secret: 'secret234ky', // Change this to a secure secret key
+      resave: false,
+      saveUninitialized: true,
+    })
+  );
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }));
 
 mongoose.connect("mongodb://127.0.0.1:27017/logindetails");
 
@@ -69,6 +80,21 @@ app.post('/Signup', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+app.post('/logout', async (req, res) => {
+    try {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Error: Failed to log out', err);
+          return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        res.json({ message: 'Logout successful' });
+      });
+    } catch (error) {
+      console.error('Error during logout:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 
 
   
