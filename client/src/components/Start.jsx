@@ -18,6 +18,10 @@ const Start = () => {
   const toggleGamePlay = () =>{
     navigate(`/${username}/gameplay`);
   };
+
+  const prevScores = () =>{
+    navigate(`/${username}/prevscores`)
+  }
   
   
   
@@ -29,16 +33,16 @@ const Start = () => {
         <div className="user-info" onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>
           <img src="/images/person.svg" alt="" />
           <h1>{username}</h1>
-          {showDropdown && (
-            <DropdownContent>
+          
+          <DropdownContent $showDropdown={showDropdown}>
               {/* Your dropdown content goes here */}
               <ul>
-                <li>Menu Item 1</li>
-                <li>Menu Item 2</li>
+                <li onClick={prevScores}>My Previous Scores</li>
+                <li>Change Password</li>
+                <li onClick={()=>{navigate('/')}}>Logout</li>
                 {/* Add more menu items as needed */}
               </ul>
             </DropdownContent>
-          )}
         </div>
       </DashboardContainer>
       <DiceContainer>
@@ -60,46 +64,64 @@ const Start = () => {
 export default Start
 
 
+
 const Container = styled.div`
   display: flex;
-  justify-content: space-around;
-  /* align-items: center; */
+  flex-direction: column;
+  align-items: center;
   height: 70vh;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-around;
+  }
 `;
 
 const DashboardContainer = styled.div`
-  text-align: left;
-  top: 0px;
-  right: 100px;
-  width: 50px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+
 
   .user-info {
-  display: flex; /* Use flexbox */
-  align-items: center; /* Align items vertically */
-}
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+  }
 
-.user-info img {
-  width: 40px; /* Adjust image size as needed */
-  height: 40px;
-  margin-right: 10px; /* Add spacing between image and text */
-}
+  img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
 `;
 
 const DiceContainer = styled.div`
   text-align: center;
   padding-top: 50px;
-  width: 500px;
+
+  img {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  div {
+    padding-top: 20px;
+  }
 `;
+
 const DropdownContent = styled.div`
-  display: ${({ showDropdown }) => (showDropdown ? 'block' : 'none')};
+  display: ${({ $showDropdown }) => ($showDropdown ? "block" : "none")};
   position: absolute;
   top: 100%;
   left: 0;
   background-color: #0a0101;
-  border: 1px solid #ccc;
+  border: 1px solid #faf4f4;
   border-radius: 4px;
   padding: 8px;
-  z-index: 1;
+  z-index: 2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   ul {
     list-style-type: none;
@@ -110,6 +132,8 @@ const DropdownContent = styled.div`
   li {
     padding: 8px 16px;
     cursor: pointer;
+    color: #fff;
+    transition: background-color 0.3s ease;
 
     &:hover {
       background-color: #130404;

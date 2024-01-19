@@ -27,7 +27,7 @@ const RenderForm = () => {
         if (response.ok) {
             console.log('Login successful'); 
 			// or perform any action upon successful login
-            navigate(`/start/${username}`); // Redirect to another page upon successful login
+            navigate(`/${username}/start`); // Redirect to another page upon successful login
         } else {
             const errorData = await response.json();
             console.error('Error:', errorData.message);

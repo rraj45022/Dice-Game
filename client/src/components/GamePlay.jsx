@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { useState } from 'react'
 import { Button, OutlineButton } from  "../styled/Button";
 import Rules from './Rule'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const GamePlay = () => {
   
@@ -16,6 +16,7 @@ const GamePlay = () => {
   const [error, setError] = useState("");
   const [showRules,setShowRules] = useState(false);
   const navigate = useNavigate();
+  const {username} = useParams(); 
 
   const generateRandomNumber = (min, max) =>{
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -51,7 +52,11 @@ const GamePlay = () => {
     try{
       const response = await fetch('http://localhost:3000/logout', {
         method: 'POST',
-        credentials: 'include'
+        headers:{
+          "Content-Type":"application/json"
+        },
+        credentials: 'include',
+        body: JSON.stringify({username, score})
       });
       if (response.ok){
         console.log("logout successfull");

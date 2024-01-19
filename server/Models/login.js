@@ -8,9 +8,19 @@ const loginSchema = new mongoose.Schema({
     password: {
        type: String,
        required : true
-    }
+    },
+    scores: [{
+        score: {
+            type: Number,
+            default: 0
+        },
+        date: {
+            type: Date,
+            default: Date.now
+        }
+    }]
 });
 
-const loginModel = mongoose.mongoose.model("employee", loginSchema);
+const loginModel = mongoose.mongoose.model("employees", loginSchema);
 
 module.exports = loginModel;
