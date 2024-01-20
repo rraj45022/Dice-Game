@@ -22,6 +22,31 @@ const Start = () => {
   const prevScores = () =>{
     navigate(`/${username}/prevscores`)
   }
+
+  const deleteAccount = async()=>{
+    try {
+      // Perform the logic to delete the user account, for example, making an API request
+      // You can use fetch or any other HTTP client library here
+      const response = await fetch(`http://localhost:3000/${username}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        console.log('Account deleted successfully');
+        // Redirect or perform any other action after successful account deletion
+        navigate('/');
+      } else {
+        console.error('Failed to delete account');
+        // Handle error condition, display a message to the user, etc.
+      }
+    } catch (error) {
+      console.error(`Error deleting account: ${error.message}`);
+    }
+  };  
+  
   
   
   
@@ -40,6 +65,7 @@ const Start = () => {
                 <li onClick={prevScores}>My Previous Scores</li>
                 <li>Change Password</li>
                 <li onClick={()=>{navigate('/')}}>Logout</li>
+                <li onClick={deleteAccount}>Delete Account</li>
                 {/* Add more menu items as needed */}
               </ul>
             </DropdownContent>

@@ -131,6 +131,24 @@ app.post('/logout', async (req, res) => {
     }
   });
 
+  app.delete('/:username', async (req, res) => {
+    const { username } = req.params;
+  
+    try {
+      // Find and delete the user by username
+      const result = await loginModel.findOneAndDelete({ username });
+  
+      if (result) {
+        res.status(200).json({ message: 'Account deleted successfully' });
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
+    } catch (error) {
+      console.error(`Error deleting account: ${error.message}`);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+
 
   
 
